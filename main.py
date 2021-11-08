@@ -10,11 +10,19 @@ class Alien:
     pygame.draw.rect(screen,WHITE,[self.x, self.y, 30,30],5)
   
   def move(self,speed):
-    self.x = self.x + speed
-    #if self.x > 500 set dir to left???
-    #if self.x < 0 set dir to right
-    #if dir = right then self.x = self.x + speed
-    #if dir = left then self.x = self.x - speed
+    #self.x = self.x + speed
+    if self.x > 500 - 30:
+      self.dir="left"
+      self.y = self.y + 30
+    if self.x < 0:
+      self.dir="right"
+      self.y = self.y + 30
+
+    if self.dir == "right":
+      self.x = self.x + speed
+    if self.dir == "left":
+      self.x = self.x - speed
+      
 
 
 import pygame
@@ -60,12 +68,13 @@ while done==False:
 #----------------- DRAWING START-----------------------------------
     screen.fill(BLACK) # starts off with a BLACK screen
 
-    #bob.move(5,"left")
+    bob.move(15)
     
     bob.draw()    
     ryan.draw()    
     joanna.draw()
     for i in range(8):
+      aliens[i].move(5)
       aliens[i].draw()
 
     
