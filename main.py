@@ -1,3 +1,9 @@
+class Gun:
+  def __init__(self,x,y):
+    self.x = x
+    self.y = y
+  def draw(self):   
+    screen.blit(gunImg,(self.x,self.y))
 
 
 class Alien:
@@ -7,7 +13,8 @@ class Alien:
     self.dir = "left"
   
   def draw(self):
-    pygame.draw.rect(screen,WHITE,[self.x, self.y, 30,30],5)
+    #pygame.draw.rect(screen,WHITE,[self.x, self.y, 30,30],5)
+    screen.blit(alienImg,(self.x,self.y))
   
   def move(self,speed):
     #self.x = self.x + speed
@@ -35,20 +42,20 @@ BLUE    = (0,0,255)
 
 size    =[500,500]
 screen  = pygame.display.set_mode(size)
-
+alienImg = pygame.image.load("alien2.png")
+gunImg = pygame.image.load("gun.png")
 pygame.display.set_caption("space invaderz")
 
 clock=pygame.time.Clock()
 
 done=False
 #instantiate the aliens
-bob = Alien(3,10)
-ryan = Alien(300,10)
-joanna = Alien(200,400)
-
 aliens = []
 for i in range(8):
   aliens.append(Alien(i*60,20))
+
+#instantiate gun
+spacegun = Gun(235,470)
 
 #----------------- MAIN GAME LOOP START----------------------------
 while done==False:
@@ -58,6 +65,16 @@ while done==False:
         if event.type == pygame.QUIT:
             done=True
 
+        if event.type == pygame.KEYDOWN: 
+            if event.key == pygame.K_RIGHT:
+              print("You pressed right")
+              spacegun.x = spacegun.x + 10
+            if event.key == pygame.K_LEFT:
+              print("You pressed left")
+              spacegun.x = spacegun.x - 10
+
+    
+    
 
 #----------------- CHECK FOR EVENTS END----------------------------
 
@@ -68,19 +85,11 @@ while done==False:
 #----------------- DRAWING START-----------------------------------
     screen.fill(BLACK) # starts off with a BLACK screen
 
-    bob.move(15)
-    
-    bob.draw()    
-    ryan.draw()    
-    joanna.draw()
     for i in range(8):
       aliens[i].move(5)
       aliens[i].draw()
 
-    
-
-    #pygame.draw.ellipse(screen,RED,[120,120, 250,200],5)
-
+    spacegun.draw()
 
     pygame.display.flip() # have to flip the display to show result
 
